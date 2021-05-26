@@ -60,7 +60,8 @@ public class PatientServiceImpl implements  PatientService{
     private Patient saveDataFromCsvToPatient(Patient patient, List<String> listOfAdress , List<String> listOfPatientParameteres){
         /**PatientParameters Setting **/
         patient.setAge(Integer.valueOf(listOfPatientParameteres.get(0)));
-        patient.setBirthdate(LocalDateTime.parse(listOfPatientParameteres.get(1), formatter));patient.setCreatedAt(LocalDateTime.parse(listOfPatientParameteres.get(2), formatter));
+        patient.setBirthdate(LocalDateTime.parse(listOfPatientParameteres.get(1), formatter));
+        patient.setCreatedAt(LocalDateTime.parse(listOfPatientParameteres.get(2), formatter));
         patient.setName(listOfPatientParameteres.get(3));
         patient.setPesel(listOfPatientParameteres.get(4));
         patient.setSex(listOfPatientParameteres.get(5).charAt(0));
