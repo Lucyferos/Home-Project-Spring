@@ -32,6 +32,7 @@ public class PatientServiceImpl implements  PatientService{
 
     @Override
     public Patient save(Patient patient) {
+        patient.setCreatedAt(LocalDateTime.now());
         patientRepository.save(patient);
         return patient;
     }
