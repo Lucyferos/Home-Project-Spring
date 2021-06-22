@@ -49,6 +49,10 @@ public class PatientDTO {
         this.adressDTO = adressDTO;
     }
 
+    public PatientDTO() {
+
+    }
+
     public Long getId() {
         return id;
     }

@@ -15,13 +15,14 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequestMapping("/api/Patient")
 @RestController
 @CrossOrigin
 public class PatientController {
     private PatientService patientService;
-    private PatientMapper patientMapper;
+    private final PatientMapper patientMapper;
     private AdressMapper adressMapper;
 
     public PatientController(PatientService patientService, PatientMapper patientMapper, AdressMapper adressMapper) {
@@ -31,15 +32,16 @@ public class PatientController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<Patient>> getListedPatients() {
+    public ResponseEntity<HttpResponse<List<PatientDTO>>> getListedPatients() {
         List<Patient> listOfAllPatients = patientService.findAll();
-        return ResponseEntity.ok(listOfAllPatients);
+        List<PatientDTO> patientDTOList = listOfAllPatients.stream().map((Patient patient) -> patientMapper.patientToPatientDto(patient, new CycleAvoidingMappingContext())).collect(Collectors.toList());
+        return ResponseEntity.ok(new HttpResponse<>(HttpResponse.HttpResponseMessage.SUCCESS.getMessage(), patientDTOList));
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Patient> addPatient(@RequestBody PatientDTO patientDTO) {
+    public ResponseEntity<HttpResponse<PatientDTO>> addPatient(@RequestBody PatientDTO patientDTO) {
         Patient newPatient = patientMapper.patientDtoToPatient(patientDTO, new CycleAvoidingMappingContext());
-        return ResponseEntity.ok(patientService.save(newPatient));
+        return ResponseEntity.ok(new HttpResponse<>(HttpResponse.HttpResponseMessage.PATIENT_ADD_SUCCESS.getMessage(),patientMapper.patientToPatientDto(patientService.save(newPatient), new CycleAvoidingMappingContext())));
     }
 
     @PostMapping("/add/csv")

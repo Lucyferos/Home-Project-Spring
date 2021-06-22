@@ -6,13 +6,6 @@ import com.example.demo.model.PatientBuilder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.processing.Generated;
-
-@Generated(
-        value = "org.mapstruct.ap.MappingProcessor",
-        date = "2021-03-11T19:21:44+0100",
-        comments = "version: 1.4.2.Final, compiler: javac, environment: Java 13.0.2 (Oracle Corporation)"
-)
-
 @Component
 public class PatientMapperImpl implements PatientMapper{
 
@@ -45,5 +38,29 @@ public class PatientMapperImpl implements PatientMapper{
                 .createPatient();
         cycleAvoidingMappingContext.storeMappedInstance( patientDTO, patient );
         return patient;
+    }
+
+    @Override
+    public PatientDTO patientToPatientDto(Patient patient, CycleAvoidingMappingContext cycleAvoidingMappingContext) {
+        PatientDTO target = cycleAvoidingMappingContext.getMappedInstance( patient, PatientDTO.class );
+        if ( target != null ) {
+            return target;
+        }
+
+        if(patient == null){
+            return null;
+        }
+
+        PatientDTO patientDTO = new PatientDTO();
+        patientDTO.setAdressDTO(adressMapper.adressToAdressDTO(patient.getAdress()));
+        patientDTO.setAge(patient.getAge());
+        patientDTO.setBirthdate(patient.getBirthdate());
+        patientDTO.setPesel(patient.getPesel());
+        patientDTO.setId(patient.getId());
+        patientDTO.setName(patient.getName());
+        patientDTO.setCreatedAt(patient.getCreatedAt());
+        patientDTO.setSurname(patient.getSurname());
+        patientDTO.setSex(patient.getSex());
+        return patientDTO;
     }
 }

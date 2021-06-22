@@ -5,4 +5,5 @@ import com.example.demo.model.Patient;
 
 public interface PatientMapper {
     Patient patientDtoToPatient(PatientDTO patientDTO, CycleAvoidingMappingContext cycleAvoidingMappingContext);
+    PatientDTO patientToPatientDto(Patient patient , CycleAvoidingMappingContext cycleAvoidingMappingContext);
 }

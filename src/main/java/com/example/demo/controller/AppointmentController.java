@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.AppointmentDTO;
+import com.example.demo.dto.HttpResponse;
 import com.example.demo.mapper.AppointmentMapper;
 import com.example.demo.model.Appointment;
 import com.example.demo.service.AppointmentService;
@@ -24,21 +25,21 @@ public class AppointmentController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<AppointmentDTO> createAppointment(@RequestBody AppointmentDTO appointmentDTO){
+    public ResponseEntity<HttpResponse<AppointmentDTO>> createAppointment(@RequestBody AppointmentDTO appointmentDTO){
         Appointment appointment = appointmentService.save(appointmentMapper.appointmentDtoToAppointment(appointmentDTO));
-        return ResponseEntity.ok(appointmentMapper.appointmentToAppointmentDto(appointment));
+        return ResponseEntity.ok(new HttpResponse<>(HttpResponse.HttpResponseMessage.APPOINTMENT_SET.getMessage(), appointmentMapper.appointmentToAppointmentDto(appointment)));
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<AppointmentDTO>> listAppointments(){
+    public ResponseEntity<HttpResponse<List<AppointmentDTO>>> listAppointments(){
         List<Appointment> appointmentList = new ArrayList<>(appointmentService.getAllAppointments());
         List<AppointmentDTO> appointmentDTOS = appointmentList.stream().map(appointmentMapper :: appointmentToAppointmentDto).collect(Collectors.toList());
-        return ResponseEntity.ok(appointmentDTOS);
+        return ResponseEntity.ok(new HttpResponse<>(HttpResponse.HttpResponseMessage.SUCCESS.getMessage(), appointmentDTOS));
     }
 
     @PostMapping("/findPesel")
-    public List<AppointmentDTO> findAppointmentWithPesel(@RequestParam String pesel){
+    public ResponseEntity<HttpResponse<List<AppointmentDTO>>> findAppointmentWithPesel(@RequestParam String pesel){
         List<AppointmentDTO> appointmentList = appointmentService.findByPesel(pesel).stream().map(appointmentMapper :: appointmentToAppointmentDto).collect(Collectors.toList());
-        return appointmentList;
+        return ResponseEntity.ok(new HttpResponse<>(HttpResponse.HttpResponseMessage.SUCCESS.getMessage(), appointmentList));
     }
 }

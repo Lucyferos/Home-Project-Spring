@@ -3,7 +3,10 @@ package com.example.demo.dto;
 public class HttpResponse <T>{
 
     public enum HttpResponseMessage{
-        SUCCESS("success"), FAIL("fail") , NO_RESOURCE("There is no resource with passed id"), MULTIPLE_VALUE("Object with this value already exists");
+        SUCCESS("success"), FAIL("fail") , NO_RESOURCE("There is no resource with passed id"),
+        MULTIPLE_VALUE("Object with this value already exists"),
+        PATIENT_ADD_SUCCESS("Patient has been added successfully"),
+        APPOINTMENT_SET("Appointment set successfully");
 
         String message;
 
