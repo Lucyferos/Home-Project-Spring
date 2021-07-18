@@ -3,16 +3,11 @@ package com.example.demo.model;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Table
 @Entity(name = "appointment")
 public class Appointment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "patient_id" ,referencedColumnName = "id")
-    private Patient patient;
 
     @Column(name = "date")
     private LocalDateTime appointmentTime;
@@ -20,11 +15,19 @@ public class Appointment {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "patient_id" ,referencedColumnName = "id")
+    private Patient patient;
+
 
     public Appointment(Patient patient, LocalDateTime appointmentTime, LocalDateTime createdAt) {
         this.patient = patient;
         this.appointmentTime = appointmentTime;
         this.createdAt = createdAt;
+    }
+
+    public Appointment() {
+
     }
 
     public LocalDateTime getCreatedAt() {
