@@ -10,5 +10,5 @@ public interface PatientService {
     List<Patient> findAll();
     Patient save(Patient patient);
     boolean deleteById(Long id);
-    List<Patient> savePatientsFromCsv(MultipartFile multipartFile) throws IOException;
+    List<Patient> savePatientsFromCsv(MultipartFile multipartFile) throws Exception;
 }

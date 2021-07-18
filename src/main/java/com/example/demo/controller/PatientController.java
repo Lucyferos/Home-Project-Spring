@@ -45,13 +45,16 @@ public class PatientController {
     }
 
     @PostMapping("/add/csv")
-    public ResponseEntity<HttpResponse<Object>> addPatientsThroughCsv(@RequestParam("file") MultipartFile multipartFile) throws IOException , WrongDateTimeException {
+    public ResponseEntity<HttpResponse<List<PatientDTO>>> addPatientsThroughCsv(@RequestParam("file") MultipartFile multipartFile) throws WrongDateTimeException {
         try {
             List<Patient> listOfSingleParcelsWithCsvData = patientService.savePatientsFromCsv(multipartFile);
+            return ResponseEntity.ok(new HttpResponse<>(HttpResponse.HttpResponseMessage.SUCCESS.getMessage(), listOfSingleParcelsWithCsvData.stream().map(patientMapper ::patientToPatientDtoForLists).collect(Collectors.toList())));
         }catch (DateTimeParseException e){
             throw new WrongDateTimeException();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return ResponseEntity.ok(new HttpResponse<>(HttpResponse.HttpResponseMessage.SUCCESS.getMessage(), null));
+        return ResponseEntity.ok(new HttpResponse<>(HttpResponse.HttpResponseMessage.FAIL.getMessage(), null));
     }
 
     @DeleteMapping("/{id}")
