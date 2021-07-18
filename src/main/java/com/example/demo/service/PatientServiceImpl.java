@@ -45,17 +45,22 @@ public class PatientServiceImpl implements  PatientService{
     }
 
     @Override
-    public List<Patient> savePatientsFromCsv(MultipartFile multipartFile) throws IOException {
-        List<List<String>> listOfCsvFiles = new CsvFilesHandler().csvReader(multipartFile);
-        List<Patient> listOfPatients = new ArrayList<>();
-        for(int i = 0 ; i < listOfCsvFiles.size(); i++){
-            List<String> listOfAdress = listOfCsvFiles.get(i).subList(0,4);
-            List<String> listOfPatientParameteres = listOfCsvFiles.get(i).subList(4,11);
-            Patient patient = saveDataFromCsvToPatient(new Patient(), listOfAdress , listOfPatientParameteres);
-            listOfPatients.add(patient);
-            patientRepository.save(patient);
+    public List<Patient> savePatientsFromCsv(MultipartFile multipartFile) throws Exception {
+        try {
+            List<List<String>> listOfCsvFiles = new CsvFilesHandler().csvReader(multipartFile);
+            List<Patient> listOfPatients = new ArrayList<>();
+            for (List<String> listOfCsvFile : listOfCsvFiles) {
+                List<String> listOfAdress = listOfCsvFile.subList(0, 4);
+                List<String> listOfPatientParameteres = listOfCsvFile.subList(4, 11);
+                Patient patient = saveDataFromCsvToPatient(new Patient(), listOfAdress, listOfPatientParameteres);
+                listOfPatients.add(patient);
+                patientRepository.save(patient);
+            }
+            return listOfPatients;
+        }catch (IOException e){
+            e.printStackTrace();
+            throw new Exception("Error while reading csv file");
         }
-        return listOfPatients;
     }
 
     private Patient saveDataFromCsvToPatient(Patient patient, List<String> listOfAdress , List<String> listOfPatientParameteres){

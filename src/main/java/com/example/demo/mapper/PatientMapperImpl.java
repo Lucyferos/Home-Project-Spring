@@ -41,6 +41,25 @@ public class PatientMapperImpl implements PatientMapper{
     }
 
     @Override
+    public PatientDTO patientToPatientDtoForLists(Patient patient) {
+        if(patient == null){
+            return null;
+        }
+
+        PatientDTO patientDTO = new PatientDTO();
+        patientDTO.setAdressDTO(adressMapper.adressToAdressDTO(patient.getAdress()));
+        patientDTO.setAge(patient.getAge());
+        patientDTO.setBirthdate(patient.getBirthdate());
+        patientDTO.setPesel(patient.getPesel());
+        patientDTO.setId(patient.getId());
+        patientDTO.setName(patient.getName());
+        patientDTO.setCreatedAt(patient.getCreatedAt());
+        patientDTO.setSurname(patient.getSurname());
+        patientDTO.setSex(patient.getSex());
+        return patientDTO;
+    }
+
+    @Override
     public PatientDTO patientToPatientDto(Patient patient, CycleAvoidingMappingContext cycleAvoidingMappingContext) {
         PatientDTO target = cycleAvoidingMappingContext.getMappedInstance( patient, PatientDTO.class );
         if ( target != null ) {
