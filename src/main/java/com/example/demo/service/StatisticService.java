@@ -19,13 +19,17 @@ public class StatisticService {
     public StatisticDTO getDatabaseStatistic(){
         StatisticDTO statisticDTO = new StatisticDTO();
         statisticDTO.setAllPatientsInDatabase(getAllPatientsInDatabase());
-        statisticDTO.setLatestAppointment(getLatestAppointment());
+        statisticDTO.setLatestAppointment(getEarliestAppointment());
         statisticDTO.setPatientsAddedInLast30Days(getLastPatientsFrom30Days());
         return statisticDTO;
     }
 
     private Appointment getLatestAppointment(){
         return appointmentRepository.findByAppointmentTime(appointmentRepository.getDate());
+    }
+
+    private Appointment getEarliestAppointment(){
+        return appointmentRepository.findEarliestAppointment();
     }
 
     private long getAllPatientsInDatabase(){

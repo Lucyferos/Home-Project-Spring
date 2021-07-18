@@ -12,5 +12,9 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
       @Query(value = "SELECT MIN(appointment.date) FROM appointment", nativeQuery = true)
       LocalDateTime getDate();
 
+      @Query(value = "SELECT * FROM appointment" +
+              " WHERE date = (SELECT MIN(date) FROM appointment)", nativeQuery = true)
+      Appointment findEarliestAppointment();
+
       Appointment findByAppointmentTime(LocalDateTime appointmentTime);
 }
