@@ -17,7 +17,7 @@ import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RequestMapping("/api/Patient")
+@RequestMapping("/api/patient")
 @RestController
 @CrossOrigin
 public class PatientController {
@@ -45,16 +45,15 @@ public class PatientController {
     }
 
     @PostMapping("/add/csv")
-    public ResponseEntity<HttpResponse<List<PatientDTO>>> addPatientsThroughCsv(@RequestParam("file") MultipartFile multipartFile) throws WrongDateTimeException {
+    public ResponseEntity<HttpResponse<List<PatientDTO>>> addPatientsThroughCsv(@RequestParam("file") MultipartFile multipartFile) throws Exception {
         try {
             List<Patient> listOfSingleParcelsWithCsvData = patientService.savePatientsFromCsv(multipartFile);
             return ResponseEntity.ok(new HttpResponse<>(HttpResponse.HttpResponseMessage.SUCCESS.getMessage(), listOfSingleParcelsWithCsvData.stream().map(patientMapper ::patientToPatientDtoForLists).collect(Collectors.toList())));
         }catch (DateTimeParseException e){
             throw new WrongDateTimeException();
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new Exception("Exception occurred error:"+ e.getMessage());
         }
-        return ResponseEntity.ok(new HttpResponse<>(HttpResponse.HttpResponseMessage.FAIL.getMessage(), null));
     }
 
     @DeleteMapping("/{id}")
