@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.AppointmentCreateDTO;
 import com.example.demo.dto.AppointmentDTO;
 import com.example.demo.dto.HttpResponse;
 import com.example.demo.mapper.AppointmentMapper;
@@ -25,8 +26,8 @@ public class AppointmentController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<HttpResponse<AppointmentDTO>> createAppointment(@RequestBody AppointmentDTO appointmentDTO){
-        Appointment appointment = appointmentService.save(appointmentMapper.appointmentDtoToAppointment(appointmentDTO));
+    public ResponseEntity<HttpResponse<AppointmentDTO>> createAppointment(@RequestBody AppointmentCreateDTO appointmentCreateDTO){
+        Appointment appointment = appointmentService.save(appointmentCreateDTO);
         return ResponseEntity.ok(new HttpResponse<>(HttpResponse.HttpResponseMessage.APPOINTMENT_SET.getMessage(), appointmentMapper.appointmentToAppointmentDto(appointment)));
     }
 
