@@ -31,6 +31,10 @@ public class Patient {
     private LocalDateTime createdAt;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "identity_id" ,referencedColumnName = "id")
+    private Identity identity;
+
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "adress_id" ,referencedColumnName = "id")
     private Adress adress;
 
@@ -119,5 +123,13 @@ public class Patient {
 
     public void setAdress(Adress adress) {
         this.adress = adress;
+    }
+
+    public Identity getIdentity() {
+        return identity;
+    }
+
+    public void setIdentity(Identity identity) {
+        this.identity = identity;
     }
 }
