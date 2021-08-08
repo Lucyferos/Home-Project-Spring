@@ -21,7 +21,7 @@ public class StatisticsController {
     }
 
     @GetMapping()
-    public ResponseEntity<HttpResponse<StatisticDTO>> getListedPatients() {
+    public ResponseEntity<HttpResponse<StatisticDTO>> getStatistics() {
         StatisticDTO statisticDTO = statisticService.getDatabaseStatistic();
         return ResponseEntity.ok(new HttpResponse<>(HttpResponse.HttpResponseMessage.SUCCESS.getMessage(), statisticDTO));
     }

@@ -6,6 +6,8 @@ import com.example.demo.repository.AppointmentRepository;
 import com.example.demo.repository.PatientRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class StatisticService {
     private final PatientRepository patientRepository;
@@ -21,11 +23,16 @@ public class StatisticService {
         statisticDTO.setAllPatientsInDatabase(getAllPatientsInDatabase());
         statisticDTO.setLatestAppointment(getEarliestAppointment());
         statisticDTO.setPatientsAddedInLast30Days(getLastPatientsFrom30Days());
+        statisticDTO.setListOf10EarliestAppointments(get10EarliestAppointments());
         return statisticDTO;
     }
 
     private Appointment getLatestAppointment(){
         return appointmentRepository.findByAppointmentTime(appointmentRepository.getDate());
+    }
+
+    private List<Appointment> get10EarliestAppointments(){
+        return appointmentRepository.get10EarliestAppointments();
     }
 
     private Appointment getEarliestAppointment(){
