@@ -2,9 +2,13 @@ package com.example.demo.dto;
 
 import com.example.demo.model.Appointment;
 
+import java.util.List;
+
 public class StatisticDTO {
     private long allPatientsInDatabase;
     private long patientsAddedInLast30Days;
+
+    private List<Appointment> listOf10EarliestAppointments;
 
     private Appointment latestAppointment;
 
@@ -14,6 +18,14 @@ public class StatisticDTO {
 
     public void setLatestAppointment(Appointment latestAppointment) {
         this.latestAppointment = latestAppointment;
+    }
+
+    public List<Appointment> getListOf10EarliestAppointments() {
+        return listOf10EarliestAppointments;
+    }
+
+    public void setListOf10EarliestAppointments(List<Appointment> listOf10EarliestAppointments) {
+        this.listOf10EarliestAppointments = listOf10EarliestAppointments;
     }
 
     public long getAllPatientsInDatabase() {
